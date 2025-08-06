@@ -32,5 +32,6 @@ An SAP Fiori application for managin customers.
 #### Pre-requisites:
 
 1. Active NodeJS LTS (Long Term Support) version and associated supported NPM version.  (See https://nodejs.org)
+2. Install the Node Modules in the Terminal with npm install
 
 
