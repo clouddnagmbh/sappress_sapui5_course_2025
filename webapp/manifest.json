@@ -81,7 +81,7 @@
           "name": "RouteMain",
           "pattern": ":?query:",
           "target": [
-            "TargetMain"
+            "TargetOverview"
           ]
         }
       ],
@@ -92,6 +92,13 @@
           "clearControlAggregation": false,
           "viewId": "Main",
           "viewName": "Main"
+        }, 
+        "TargetOverview": {
+          "viewName": "Overview",
+          "viewId": "Overview",
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false
         }
       }
     },
