@@ -14,9 +14,33 @@
             />
         </s:titleHeading>
         <s:content>
+            <!--<HBox id="main_container">
+                <Input
+                    id="sample_input"
+                    value="{/firstName}"
+                    enabled="{/isEditable}"
+                />
+                <Switch 
+                    id="sample_switch"
+                    state="{/isEditable}"/>
+                <List
+                    id="sample_list"
+                    items="{/people}">
+                    <items>
+                        <StandardListItem 
+                            id="sample_listitem"
+                            title="{firstName}"
+                            description="{age}"
+                        />
+                    </items>
+
+                </List>
+            </HBox>-->
+
             <Table
                 id="main_table"
                 headerText="{i18n>main.table.title}"
+                items="{/customers}"
             >
                 <columns>
                     <Column id="main_column_customerid">
@@ -97,40 +121,40 @@
                         <cells>
                             <ObjectIdentifier
                                 id="main_object_identifier"
-                                title="1000001"
+                                title="{Customerid}"
                             />
                             <Text
                                 id="main_cell_item_firstname"
-                                text="Max"
+                                text="{Firstname}"
                             />
                             <Text
                                 id="main_cell_item_lastname"
-                                text="Mustermann"
+                                text="{Lastname}"
                             />
                             <Text
                                 id="main_cell_item_title"
-                                text="Dr."
+                                text="{Title}"
                             />
                             <Text
                                 id="main_cell_item_gender"
-                                text="male"
+                                text="{path: 'Gender', formatter: '.formatter.genderFormatter'}"
                             />
                             <Text
                                 id="main_cell_item_birthdate"
-                                text="01.01.2000"
+                                text="{Birthdate}"
                             />
                             <Text
                                 id="main_cell_item_email"
-                                text="max.mustermann@clouddna.at"
+                                text="{Email}"
                             />
                             <Text
                                 id="main_cell_item_phone"
-                                text="+43676123123"
+                                text="{Phone}"
                             />
                             <Link
                                 id="main_cell_item_website"
-                                text="www.clouddna.at"
-                                href="https://{www.clouddna.at}"
+                                text="{Website}"
+                                href="https://{Website}"
                                 target="_blank"
                             />
                         </cells>
