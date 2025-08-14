@@ -91,15 +91,21 @@
           "target": [
             "TargetOverview"
           ]
+        }, {
+          "name": "RouteDetail",
+          "pattern": "/customer/{customerId}",
+          "target": [
+            "TargetDetail"
+          ]
         }
       ],
       "targets": {
-        "TargetMain": {
+        "TargetDetail": {
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
-          "viewId": "Main",
-          "viewName": "Main"
+          "viewId": "Customer",
+          "viewName": "Customer"
         }, 
         "TargetOverview": {
           "viewName": "Overview",

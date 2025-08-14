@@ -6,153 +6,130 @@
     xmlns:s="sap.f.semantic"
     xmlns="sap.m"
 >
-    <s:SemanticPage id="main_page">
+    <s:SemanticPage id="overview_semanticPage">
         <s:titleHeading>
             <Title
-                id="main_title"
+                id="overview_title"
                 text="{i18n>title}"
             />
         </s:titleHeading>
         <s:content>
-            <!--<HBox id="main_container">
-                <Input
-                    id="sample_input"
-                    value="{/firstName}"
-                    enabled="{/isEditable}"
-                />
-                <Switch 
-                    id="sample_switch"
-                    state="{/isEditable}"/>
-                <List
-                    id="sample_list"
-                    items="{/people}">
-                    <items>
-                        <StandardListItem 
-                            id="sample_listitem"
-                            title="{firstName}"
-                            description="{age}"
-                        />
-                    </items>
-
-                </List>
-            </HBox>-->
-
             <Table
-                id="main_table"
-                headerText="{i18n>main.table.title}"
+                id="overview_table"
+                headerText="{i18n>overview.table.title}"
                 items="{/customers}"
             >
                 <columns>
-                    <Column id="main_column_customerid">
+                    <Column id="overview_column_customerid">
                         <Text
-                            id="main_text_customerid"
-                            text="{i18n>main.customerid}"
+                            id="overview_text_customerid"
+                            text="{i18n>customer.customerid}"
                         />
                     </Column>
-                    <Column id="main_column_firstname">
+                    <Column id="overview_column_firstname">
                         <Text
-                            id="main_text_firstname"
-                            text="{i18n>main.firstname}"
+                            id="overview_text_firstname"
+                            text="{i18n>customer.firstname}"
                         />
                     </Column>
-                    <Column id="main_column_lastname">
+                    <Column id="overview_column_lastname">
                         <Text
-                            id="main_text_lastname"
-                            text="{i18n>main.lastname}"
-                        />
-                    </Column>
-                    <Column
-                        id="main_column_title"
-                        minScreenWidth="Desktop"
-                    >
-                        <Text
-                            id="main_text_title"
-                            text="{i18n>main.title}"
+                            id="overview_text_lastname"
+                            text="{i18n>customer.lastname}"
                         />
                     </Column>
                     <Column
-                        id="main_column_gender"
+                        id="overview_column_title"
                         minScreenWidth="Desktop"
                     >
                         <Text
-                            id="main_text_gender"
-                            text="{i18n>main.gender}"
+                            id="overview_text_title"
+                            text="{i18n>customer.title}"
                         />
                     </Column>
                     <Column
-                        id="main_column_birthdate"
+                        id="overview_column_gender"
                         minScreenWidth="Desktop"
                     >
                         <Text
-                            id="main_text_birthdate"
-                            text="{i18n>main.birthdate}"
+                            id="overview_text_gender"
+                            text="{i18n>customer.gender}"
                         />
                     </Column>
                     <Column
-                        id="main_column_email"
+                        id="overview_column_birthdate"
                         minScreenWidth="Desktop"
                     >
                         <Text
-                            id="main_text_email"
-                            text="{i18n>main.email}"
+                            id="overview_text_birthdate"
+                            text="{i18n>customer.birthdate}"
                         />
                     </Column>
                     <Column
-                        id="main_column_phone"
+                        id="overview_column_email"
                         minScreenWidth="Desktop"
                     >
                         <Text
-                            id="main_text_phone"
-                            text="{i18n>main.phone}"
+                            id="overview_text_email"
+                            text="{i18n>customer.email}"
                         />
                     </Column>
                     <Column
-                        id="main_column_website"
+                        id="overview_column_phone"
                         minScreenWidth="Desktop"
                     >
                         <Text
-                            id="main_text_website"
-                            text="{i18n>main.website}"
+                            id="overview_text_phone"
+                            text="{i18n>customer.phone}"
+                        />
+                    </Column>
+                    <Column
+                        id="overview_column_website"
+                        minScreenWidth="Desktop"
+                    >
+                        <Text
+                            id="overview_text_website"
+                            text="{i18n>customer.website}"
                         />
                     </Column>
                 </columns>
                 <items>
-                    <ColumnListItem id="main_column_list">
+                    <ColumnListItem id="overview_columnlistitem" type="Navigation" press="onCustomerPress">
                         <cells>
                             <ObjectIdentifier
-                                id="main_object_identifier"
+                                id="overview_cell_objectidentifier_customerid"
                                 title="{Customerid}"
                             />
                             <Text
-                                id="main_cell_item_firstname"
+                                id="overview_cell_text_firstname"
                                 text="{Firstname}"
                             />
                             <Text
-                                id="main_cell_item_lastname"
+                                id="overview_cell_text_lastname"
                                 text="{Lastname}"
                             />
                             <Text
-                                id="main_cell_item_title"
+                                id="overview_cell_text_title"
                                 text="{Title}"
                             />
                             <Text
-                                id="main_cell_item_gender"
+                                id="overview_cell_text_gender"
                                 text="{path: 'Gender', formatter: '.formatter.genderFormatter'}"
                             />
                             <Text
-                                id="main_cell_item_birthdate"
+                                id="overview_cell_text_birthdate"
                                 text="{Birthdate}"
                             />
                             <Text
-                                id="main_cell_item_email"
+                                id="overview_cell_text_email"
                                 text="{Email}"
                             />
                             <Text
-                                id="main_cell_item_phone"
+                                id="overview_cell_text_phone"
                                 text="{Phone}"
                             />
                             <Link
-                                id="main_cell_item_website"
+                                id="overview_cell_link_website"
                                 text="{Website}"
                                 href="https://{Website}"
                                 target="_blank"
