@@ -17,7 +17,7 @@
             <Table
                 id="overview_table"
                 headerText="{i18n>overview.table.title}"
-                items="{/customers}"
+                items="{/Z_P_CUSTOMER}"
             >
                 <columns>
                     <Column id="overview_column_customerid">

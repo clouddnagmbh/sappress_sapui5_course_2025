@@ -3,8 +3,9 @@ sap.ui.define([
     "sap/ui/core/Fragment",
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/routing/History",
+    "com/sappress/customerapp/controller/modules/GenderFormatter"
 ],
-    function (Controller, Fragment, JSONModel, History) {
+    function (Controller, Fragment, JSONModel, History, GenderFormatter) {
         "use strict";
 
         /**
@@ -15,6 +16,9 @@ sap.ui.define([
          * @author Daniel Krancz
          */
         return Controller.extend("com.sappress.customerapp.controller.Customer", {
+
+            //Load Formatter-Module into Controller-Property
+            formatter: GenderFormatter,
 
             editModel: undefined,
             customerFragments: {},
@@ -47,7 +51,7 @@ sap.ui.define([
                 const oCustomerId = oEvent.getParameter("arguments").customerId;
 
                 //Bind the Context of the Customer to the View
-                this.getView().bindElement("/customers/" + oCustomerId);
+                this.getView().bindElement("/" + oCustomerId);
                 this._toggleEdit(false);
             },
 
@@ -95,7 +99,22 @@ sap.ui.define([
                  * @public
                  */
             onSavePressed: function (oEvent) {
-                this._toggleEdit(false);
+                const oModel = this.getView().getModel();
+
+                if(oModel.hasPendingChanges()){
+                    oModel.submitChanges({
+                        success: (oData, reponse)=>{
+                            this;
+                            debugger;
+                            this._toggleEdit(false);
+                        },
+                        error: (oError) => {
+                            this;
+                            debugger;
+                        }
+                    });
+                }
+                
             },
 
             /**
@@ -105,6 +124,11 @@ sap.ui.define([
                  * @public
                  */
             onCancelPressed: function (oEvent) {
+                const oModel = this.getView().getModel();
+
+                if(oModel.hasPendingChanges()){
+                    oModel.resetChanges();
+                }
                 this._toggleEdit(false);
             },
 

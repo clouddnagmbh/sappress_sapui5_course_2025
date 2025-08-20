@@ -59,7 +59,7 @@
         />
         <Text
             id="display_select_gender"
-            text="{= ${Gender} === '1' ? ${i18n>female} : ${i18n>male} }"
+            text="{= ${Gender} === 'M' ? ${i18n>female} : ${i18n>male} }"
         />
 
          <Label

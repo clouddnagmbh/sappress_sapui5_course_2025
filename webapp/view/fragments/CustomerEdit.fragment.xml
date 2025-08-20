@@ -62,7 +62,7 @@
                 <core:Item
                     id="edit_select_item"
                     key="{genderModel>key}"
-                    text="{path: 'genderModel>key', formatter: '.genderFormatter'}"
+                    text="{path: 'genderModel>text', formatter: '.formatter.genderFormatter'}"
                 />
             </items>
         </Select>

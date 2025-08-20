@@ -29,8 +29,24 @@ server:
       afterMiddleware: compression
       configuration:
         ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+        backend:
+          - url: <your Backend Hostname>
+            client: '010'
+            path: /sap
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload
       configuration:
         component: com.sappress.customerapp
         ui5Theme: sap_horizon
+    - name: sap-fe-mockserver
+      beforeMiddleware: csp
+      configuration:
+        mountPath: /
+        services:
+          - urlPath: /sap/opu/odata/sap/Z_CUSTOMER_UI_V2
+            metadataPath: ./webapp/localService/mainService/metadata.xml
+            mockdataPath: ./webapp/localService/mainService/data
+            generateMockData: true
+        annotations:
+          - localPath: ./webapp/localService/mainService/Z_CUSTOMER_UI_V2_VAN.xml
+            urlPath: /sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='Z_CUSTOMER_UI_V2_VAN',Version='0001')/$value/
