@@ -30,7 +30,7 @@
 
         <Label
             id="edit_label_lastname"
-            text="{i18n>acustomerp.lastname}"
+            text="{i18n>customer.lastname}"
             labelFor="edit_input_lastname"
         />
         <Input

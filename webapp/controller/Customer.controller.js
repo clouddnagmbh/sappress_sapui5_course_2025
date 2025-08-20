@@ -1,8 +1,10 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/ui/core/Fragment"
+    "sap/ui/core/Fragment",
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/core/routing/History",
 ],
-    function (Controller, Fragment) {
+    function (Controller, Fragment, JSONModel, History) {
         "use strict";
 
         /**
@@ -14,13 +16,21 @@ sap.ui.define([
          */
         return Controller.extend("com.sappress.customerapp.controller.Customer", {
 
+            editModel: undefined,
+            customerFragments: {},
+
             /**
              * Intitialization-Livecycle Method 
              * @override
              * @public
              */
             onInit: function () {
-                const oRouter = this.getOwnerComponent().getRouter();
+                const oRouter = this.getOwnerComponent().getRouter(),
+                    oEditModel = new JSONModel({
+                        editmode: false
+                    });
+
+                this.getView().setModel(oEditModel, "editModel");
 
                 //Adding an Eventhandler to react to routes being called
                 oRouter.getRoute("RouteDetail").attachPatternMatched(this._onPatternMatched.bind(this));
@@ -38,7 +48,7 @@ sap.ui.define([
 
                 //Bind the Context of the Customer to the View
                 this.getView().bindElement("/customers/" + oCustomerId);
-                this._showCustomerFragment("CustomerDisplay");
+                this._toggleEdit(false);
             },
 
             /**
@@ -48,16 +58,24 @@ sap.ui.define([
              * @private
              */
             _showCustomerFragment: function (sFragmentName) {
-                Fragment.load({
-                    id: this.getView().createId(sFragmentName),
-                    name: "com.sappress.customerapp.view.fragments." + sFragmentName,
-                    controller: this
-                }).then((oContent) => {
+                const oPage = this.getView().byId("customer_page");
 
-                    const oPage = this.getView().byId("customer_page");
-                    oPage.removeAllContent();
-                    oPage.addContent(oContent);
-                });
+                oPage.removeAllContent();
+
+                if (this.customerFragments[sFragmentName]) {
+                    oPage.addContent(this.customerFragments[sFragmentName]);
+                } else {
+                    Fragment.load({
+                        id: this.getView().createId(sFragmentName),
+                        name: "com.sappress.customerapp.view.fragments." + sFragmentName,
+                        controller: this
+                    }).then((oContent) => {
+                        this.customerFragments[sFragmentName] = oContent;
+
+
+                        oPage.addContent(oContent);
+                    });
+                }
             },
 
             /**
@@ -67,7 +85,60 @@ sap.ui.define([
                  * @public
                  */
             onEditPress: function (oEvent) {
-                this._showCustomerFragment("CustomerEdit");
+                this._toggleEdit(true);
+            },
+
+            /**
+                 * Eventhandler for the pressing of the Save-Button in the Customer-View
+                 *
+                 * @param {sap.ui.base.Event} oEvent: Event Object for the press-Event of the Button 
+                 * @public
+                 */
+            onSavePressed: function (oEvent) {
+                this._toggleEdit(false);
+            },
+
+            /**
+                 * Eventhandler for the pressing of the Cancel-Button in the Customer-View
+                 *
+                 * @param {sap.ui.base.Event} oEvent: Event Object for the press-Event of the Button 
+                 * @public
+                 */
+            onCancelPressed: function (oEvent) {
+                this._toggleEdit(false);
+            },
+
+            /**
+             * Method to toggle between edit and display modes
+             *
+             * @param {boolean} bEditMode: Edit Mode
+             * @private
+             */
+            _toggleEdit: function (bEditMode) {
+                const oEditModel = this.getView().getModel("editModel");
+
+                oEditModel.setProperty("/editmode", bEditMode);
+
+                this._showCustomerFragment(bEditMode ? "CustomerEdit" : "CustomerDisplay");
+            },
+
+            /**
+                 * Eventhandler for navigating back to the main-Page
+                 *
+                 * @param {sap.ui.base.Event} oEvent: Event Object for the press-Event of the Button 
+                 * @public
+                 */
+            onNavBackPress: function (oEvent) {
+                const oHistory = History.getInstance(),
+                    sPreviousHash = oHistory.getPreviousHash();
+
+                if (sPreviousHash !== undefined) {
+                    window.history.go(-1);
+                } else {
+                    const oRouter = this.getOwnerComponent().getRouter();
+                    oRouter.navTo("RouteMain", {}, true);
+                }
             }
+
         });
     });

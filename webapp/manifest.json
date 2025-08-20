@@ -91,7 +91,8 @@
           "target": [
             "TargetOverview"
           ]
-        }, {
+        },
+        {
           "name": "RouteDetail",
           "pattern": "/customer/{customerId}",
           "target": [
@@ -100,19 +101,19 @@
         }
       ],
       "targets": {
-        "TargetDetail": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "Customer",
-          "viewName": "Customer"
-        }, 
         "TargetOverview": {
           "viewName": "Overview",
           "viewId": "Overview",
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false
+        },
+        "TargetDetail": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Customer",
+          "viewName": "Customer"
         }
       }
     },
