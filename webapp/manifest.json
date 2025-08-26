@@ -117,7 +117,13 @@
         },
         {
           "name": "RouteDetail",
-          "pattern": "/customer/{customerId}",
+          "pattern": "customer/{customerId}",
+          "target": [
+            "TargetDetail"
+          ]
+        },{
+          "name": "RouteCreate",
+          "pattern": "createCustomer",
           "target": [
             "TargetDetail"
           ]

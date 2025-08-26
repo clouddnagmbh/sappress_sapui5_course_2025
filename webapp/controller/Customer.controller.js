@@ -20,7 +20,10 @@ sap.ui.define([
             //Load Formatter-Module into Controller-Property
             formatter: GenderFormatter,
 
+            //Model for controlling the Edit-Mode
             editModel: undefined,
+
+            //Object for storing the Customer-Fragments
             customerFragments: {},
 
             /**
@@ -38,10 +41,27 @@ sap.ui.define([
 
                 //Adding an Eventhandler to react to routes being called
                 oRouter.getRoute("RouteDetail").attachPatternMatched(this._onPatternMatched.bind(this));
+
+                oRouter.getRoute("RouteCreate").attachPatternMatched(this._onCreatePatternMatched.bind(this));
             },
 
             /**
-             * Eventhandler for navigating to the Customer-View
+             * Eventhandler for navigating to the Customer-View for new Entries
+             *
+             * @param {sap.ui.base.Event} oEvent: Event Object for the patternMatched-Event of the Route 
+             * @private
+             */
+            _onCreatePatternMatched: function(oEvent){
+                const oModel = this.getView().getModel(),
+                    //Create a new temporarily Customer
+                    oNewCustomerContext = oModel.createEntry("/Z_P_CUSTOMER");
+
+                this.getView().bindElement(oNewCustomerContext.getPath());
+                this._toggleEdit(true);
+            },
+
+            /**
+             * Eventhandler for navigating to the Customer-View for existing Entries
              *
              * @param {sap.ui.base.Event} oEvent: Event Object for the patternMatched-Event of the Route 
              * @private
@@ -66,6 +86,7 @@ sap.ui.define([
 
                 oPage.removeAllContent();
 
+                //If Fragment was already loaded, just display it
                 if (this.customerFragments[sFragmentName]) {
                     oPage.addContent(this.customerFragments[sFragmentName]);
                 } else {
@@ -74,8 +95,8 @@ sap.ui.define([
                         name: "com.sappress.customerapp.view.fragments." + sFragmentName,
                         controller: this
                     }).then((oContent) => {
+                        //Store Fragment in Object for later use
                         this.customerFragments[sFragmentName] = oContent;
-
 
                         oPage.addContent(oContent);
                     });
@@ -83,33 +104,32 @@ sap.ui.define([
             },
 
             /**
-                 * Eventhandler for the pressing of the Edit-Button in the Customer-View
-                 *
-                 * @param {sap.ui.base.Event} oEvent: Event Object for the press-Event of the Button 
-                 * @public
-                 */
+             * Eventhandler for the pressing of the Edit-Button in the Customer-View
+             *
+             * @param {sap.ui.base.Event} oEvent: Event Object for the press-Event of the Button 
+             * @public
+             */
             onEditPress: function (oEvent) {
                 this._toggleEdit(true);
             },
 
             /**
-                 * Eventhandler for the pressing of the Save-Button in the Customer-View
-                 *
-                 * @param {sap.ui.base.Event} oEvent: Event Object for the press-Event of the Button 
-                 * @public
-                 */
+             * Eventhandler for the pressing of the Save-Button in the Customer-View
+             *
+             * @param {sap.ui.base.Event} oEvent: Event Object for the press-Event of the Button 
+             * @public
+             */
             onSavePressed: function (oEvent) {
                 const oModel = this.getView().getModel();
 
+                //Check, if the model has not submitted changes
                 if(oModel.hasPendingChanges()){
+                    //Submit them to the Backend
                     oModel.submitChanges({
                         success: (oData, reponse)=>{
-                            this;
-                            debugger;
                             this._toggleEdit(false);
                         },
                         error: (oError) => {
-                            this;
                             debugger;
                         }
                     });
@@ -118,15 +138,17 @@ sap.ui.define([
             },
 
             /**
-                 * Eventhandler for the pressing of the Cancel-Button in the Customer-View
-                 *
-                 * @param {sap.ui.base.Event} oEvent: Event Object for the press-Event of the Button 
-                 * @public
-                 */
+             * Eventhandler for the pressing of the Cancel-Button in the Customer-View
+             *
+             * @param {sap.ui.base.Event} oEvent: Event Object for the press-Event of the Button 
+             * @public
+             */
             onCancelPressed: function (oEvent) {
                 const oModel = this.getView().getModel();
 
+                //Check, if the model has not submitted changes
                 if(oModel.hasPendingChanges()){
+                    //Reset them in the Frontend
                     oModel.resetChanges();
                 }
                 this._toggleEdit(false);
@@ -147,11 +169,11 @@ sap.ui.define([
             },
 
             /**
-                 * Eventhandler for navigating back to the main-Page
-                 *
-                 * @param {sap.ui.base.Event} oEvent: Event Object for the press-Event of the Button 
-                 * @public
-                 */
+             * Eventhandler for navigating back to the main-Page
+             *
+             * @param {sap.ui.base.Event} oEvent: Event Object for the press-Event of the Button 
+             * @public
+             */
             onNavBackPress: function (oEvent) {
                 const oHistory = History.getInstance(),
                     sPreviousHash = oHistory.getPreviousHash();

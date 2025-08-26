@@ -9,16 +9,6 @@
 >
     <f:SimpleForm title="{Firstname} {Lastname}" id="edit_simpleform" editable="true">
         <Label
-            id="edit_label_customerid"
-            text="{i18n>customer.customerid}"
-            labelFor="edit_input_customerid"
-        />
-        <Input
-            id="edit_input_customerid"
-            value="{Customerid}"
-        />
-
-        <Label
             id="edit_label_firstname"
             text="{i18n>customer.firstname}"
             labelFor="edit_input_firstname"

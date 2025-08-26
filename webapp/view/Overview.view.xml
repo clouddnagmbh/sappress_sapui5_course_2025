@@ -16,9 +16,18 @@
         <s:content>
             <Table
                 id="overview_table"
-                headerText="{i18n>overview.table.title}"
                 items="{/Z_P_CUSTOMER}"
+                mode="Delete"
+                delete="onDeletePress"
             >
+                <headerToolbar>
+                    <OverflowToolbar id="overview_toolbar">
+                        <Title id="overview_table_title" text="{i18n>overview.table.title}"/>
+                        <ToolbarSpacer id="overview_toolbar_spacer"/>
+                        <Button id="overview_button_test" text="Test READ" press="onTestReadPress"/>
+                        <Button id="overview_button_create" text="{i18n>button.create}" press="onCreatePress"/>
+                    </OverflowToolbar>
+                </headerToolbar>
                 <columns>
                     <Column id="overview_column_customerid">
                         <Text
