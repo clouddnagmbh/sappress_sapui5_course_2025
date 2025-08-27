@@ -4,102 +4,65 @@
     xmlns:mvc="sap.ui.core.mvc"
     displayBlock="true"
     xmlns:s="sap.f.semantic"
-    xmlns="sap.m"
->
+    xmlns="sap.m" >
     <s:SemanticPage id="overview_semanticPage">
         <s:titleHeading>
-            <Title
-                id="overview_title"
-                text="{i18n>title}"
-            />
+            <Title id="overview_title" text="{i18n>title}" />
         </s:titleHeading>
         <s:content>
+            <VBox>
+            <!--
+            <HBox>
+                <Text text="This is my sample text bla bla bla..."/>
+            </HBox>
+            -->
             <Table
                 id="overview_table"
                 items="{/Z_P_CUSTOMER}"
                 mode="Delete"
-                delete="onDeletePress"
-            >
+                delete="onDeletePress" >
                 <headerToolbar>
                     <OverflowToolbar id="overview_toolbar">
                         <Title id="overview_table_title" text="{i18n>overview.table.title}"/>
                         <ToolbarSpacer id="overview_toolbar_spacer"/>
-                        <Button id="overview_button_test" text="Test READ" press="onTestReadPress"/>
+                        <SegmentedButton visible="{= !${device>/system/desktop} }" selectedKey="more" selectionChange="segmentedButtonChanged" >
+                            <items>
+                                <SegmentedButtonItem key="more" text="Show More" />
+                                <SegmentedButtonItem key="less" text="Show Less" />
+                            </items>
+                        </SegmentedButton>
+                        <Button id="overview_button_test" text="Test READ" press="onTestReadPress" />
                         <Button id="overview_button_create" text="{i18n>button.create}" press="onCreatePress"/>
                     </OverflowToolbar>
                 </headerToolbar>
                 <columns>
-                    <Column id="overview_column_customerid">
-                        <Text
-                            id="overview_text_customerid"
-                            text="{i18n>customer.customerid}"
-                        />
+                    <Column id="overview_column_customerid" minScreenWidth="Desktop">
+                        <!-- <Text id="overview_text_customerid" text="{i18n>customer.customerid}" /> -->
+                        <Text id="overview_text_customerid" text="{/#Z_P_CUSTOMERType/Customerid/@sap:label}" />
                     </Column>
                     <Column id="overview_column_firstname">
-                        <Text
-                            id="overview_text_firstname"
-                            text="{i18n>customer.firstname}"
-                        />
+                        <Text id="overview_text_firstname" text="{i18n>customer.firstname}" />
                     </Column>
                     <Column id="overview_column_lastname">
-                        <Text
-                            id="overview_text_lastname"
-                            text="{i18n>customer.lastname}"
-                        />
+                        <Text id="overview_text_lastname" text="{i18n>customer.lastname}" />
                     </Column>
-                    <Column
-                        id="overview_column_title"
-                        minScreenWidth="Desktop"
-                    >
-                        <Text
-                            id="overview_text_title"
-                            text="{i18n>customer.title}"
-                        />
+                    <Column id="overview_column_title" minScreenWidth="Tablet" demandPopin="{ui>/decisionDemandPopin}">
+                        <Text id="overview_text_title" text="{i18n>customer.title}" />
                     </Column>
-                    <Column
-                        id="overview_column_gender"
-                        minScreenWidth="Desktop"
-                    >
-                        <Text
-                            id="overview_text_gender"
-                            text="{i18n>customer.gender}"
-                        />
+                    <Column id="overview_column_gender" minScreenWidth="Tablet" demandPopin="{ui>/decisionDemandPopin}">
+                        <Text id="overview_text_gender" text="{i18n>customer.gender}" />
                     </Column>
-                    <Column
-                        id="overview_column_birthdate"
-                        minScreenWidth="Desktop"
-                    >
-                        <Text
-                            id="overview_text_birthdate"
-                            text="{i18n>customer.birthdate}"
-                        />
+                    <Column id="overview_column_birthdate" minScreenWidth="Desktop" demandPopin="{ui>/decisionDemandPopin}">
+                        <Text id="overview_text_birthdate" text="{i18n>customer.birthdate}" />
                     </Column>
-                    <Column
-                        id="overview_column_email"
-                        minScreenWidth="Desktop"
-                    >
-                        <Text
-                            id="overview_text_email"
-                            text="{i18n>customer.email}"
-                        />
+                    <Column id="overview_column_email" minScreenWidth="Desktop" demandPopin="{ui>/decisionDemandPopin}">
+                        <Text id="overview_text_email" text="{i18n>customer.email}" />
                     </Column>
-                    <Column
-                        id="overview_column_phone"
-                        minScreenWidth="Desktop"
-                    >
-                        <Text
-                            id="overview_text_phone"
-                            text="{i18n>customer.phone}"
-                        />
+                    <Column id="overview_column_phone" minScreenWidth="Desktop" demandPopin="{ui>/decisionDemandPopin}">
+                        <Text id="overview_text_phone" text="{i18n>customer.phone}" />
                     </Column>
-                    <Column
-                        id="overview_column_website"
-                        minScreenWidth="Desktop"
-                    >
-                        <Text
-                            id="overview_text_website"
-                            text="{i18n>customer.website}"
-                        />
+                    <Column id="overview_column_website" minScreenWidth="Desktop">
+                        <Text id="overview_text_website" text="{i18n>customer.website}" />
                     </Column>
                 </columns>
                 <items>
@@ -123,7 +86,7 @@
                             />
                             <Text
                                 id="overview_cell_text_gender"
-                                text="{path: 'Gender', formatter: '.formatter.genderFormatter'}"
+                                text="{path: 'Gender', formatter: '.genderFormatter'}"
                             />
                             <Text
                                 id="overview_cell_text_birthdate"
@@ -133,9 +96,10 @@
                                 id="overview_cell_text_email"
                                 text="{Email}"
                             />
-                            <Text
+                            <ObjectStatus
                                 id="overview_cell_text_phone"
                                 text="{Phone}"
+                                state="{ path: 'Phone', formatter: '.phoneNumberState'}"
                             />
                             <Link
                                 id="overview_cell_link_website"
@@ -147,6 +111,7 @@
                     </ColumnListItem>
                 </items>
             </Table>
+        </VBox>
         </s:content>
     </s:SemanticPage>
 </mvc:View>

@@ -6,7 +6,7 @@
             <Button id="customer_button_edit" text="Edit" press="onEditPress"/>
         </headerContent>
         <content>
-
+           
         </content>
         <footer>
             <Toolbar id="customer_toolbar_footer">

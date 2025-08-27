@@ -1,11 +1,13 @@
 sap.ui.define(
     [
         "sap/ui/core/mvc/Controller",
-        "com/sappress/customerapp/controller/modules/GenderFormatter",
         "sap/m/MessageBox",
-        "sap/ui/model/Filter"
+        "sap/ui/model/Filter",
+        "sap/m/MessageToast",
+        "sap/ui/model/json/JSONModel"
+        //"com/sappress/customerapp/controller/modules/GenderFormatter"
     ],
-    function (BaseController, GenderFormatter, MessageBox, Filter) {
+    function (BaseController, MessageBox, Filter, MessageToast, JSONModel, GenderFormatter) {
         "use strict";
 
         /**
@@ -17,7 +19,7 @@ sap.ui.define(
          */
         return BaseController.extend("com.sappress.customerapp.controller.Overview", {
             //Load Formatter-Module into Controller-Property
-            formatter: GenderFormatter,
+            //formatter: GenderFormatter,
 
             /**
              * Intitialization-Livecycle Method 
@@ -25,7 +27,19 @@ sap.ui.define(
              * @public
              */
             onInit: function () {
+                
+            },
 
+            onAfterRendering: function() {
+                let uiModel = new JSONModel({
+                    decisionDemandPopin: true
+                });
+                this.getView().setModel(uiModel, "ui");
+            },
+
+            segmentedButtonChanged: function(oEvent) {
+                let sSelectedKey = oEvent.getSource().getSelectedKey();
+                this.getView().getModel("ui").setProperty("/decisionDemandPopin", sSelectedKey === "more");
             },
 
             /**
@@ -90,7 +104,20 @@ sap.ui.define(
                 });
             },
 
+            genderFormatter: function(sGender){
+                let oView = this.getView(),
+                    //Get the Internationalization Model
+                    oi18nModel = oView.getModel("i18n"),
+                    oResourceBundle = oi18nModel.getResourceBundle();
+                return oResourceBundle.getText(sGender);
+            },
+
             onTestReadPress: function () {
+
+                let oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
+                MessageToast.show(oResourceBundle.getText("customer.messageHint"));
+
+                /*
                 const oModel = this.getView().getModel();
 
                 //Read Data 
@@ -137,7 +164,15 @@ sap.ui.define(
                         debugger;
                     }
                 });
+                */
+            },
+
+            phoneNumberState(phone) {
+                const regex = /^(\+?\d{1,3}[- ]?)?\(?\d{1,4}\)?([- ]?\d{1,4}){1,3}$/;
+
+                return regex.test(phone) ? "Success" : "Error";
             }
+
         });
     }
 );

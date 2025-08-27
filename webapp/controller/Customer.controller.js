@@ -43,6 +43,8 @@ sap.ui.define([
                 oRouter.getRoute("RouteDetail").attachPatternMatched(this._onPatternMatched.bind(this));
 
                 oRouter.getRoute("RouteCreate").attachPatternMatched(this._onCreatePatternMatched.bind(this));
+
+                this.getView().addStyleClass("sapUiSizeCompact");
             },
 
             /**
@@ -97,7 +99,6 @@ sap.ui.define([
                     }).then((oContent) => {
                         //Store Fragment in Object for later use
                         this.customerFragments[sFragmentName] = oContent;
-
                         oPage.addContent(oContent);
                     });
                 }
